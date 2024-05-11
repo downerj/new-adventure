@@ -5,10 +5,11 @@
 using namespace std;
 using namespace sf;
 namespace fs = filesystem;
+using uint = unsigned int;
 
 struct Dimensions {
-  unsigned int width;
-  unsigned int height;
+  uint width;
+  uint height;
 };
 
 int main(int, char**) {
