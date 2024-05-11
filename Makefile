@@ -2,10 +2,10 @@
 
 CXX_STD = -std=c++17
 WARNINGS = -Wall -Wextra -Werror -Wpedantic -pedantic-errors
-OPTIMIZE = -Og
-DEBUG = -DDEBUG -g
+OPTIMIZE =
+DEBUG =
 LIB_DIR = lib
-LIBS =
+LIBRARIES = -lsfml-graphics -lsfml-window -lsfml-system -lm
 LIB_INCLUDES = -I${LIB_DIR}/include
 
 EXEC_NAME = adventure
@@ -17,7 +17,13 @@ SRC_DIR = src
 MAIN_OBJ = ${OBJ_DIR}/main.o
 MAIN_SRC = ${SRC_DIR}/main.cxx
 
-all: ${EXEC}
+release: DEBUG = -DNDEBUG
+release: OPTIMIZE = -O3
+release: ${EXEC}
+
+debug: DEBUG = -DDEBUG -g
+debug: OPTIMIZE = -Og
+debug: ${EXEC}
 
 ${EXEC_DIR}:
 	mkdir -p ${EXEC_DIR}
@@ -26,9 +32,9 @@ ${OBJ_DIR}:
 	mkdir -p ${OBJ_DIR}
 
 ${EXEC}: ${MAIN_OBJ}
-	${CXX} -o $@ $^
+	${CXX} -o $@ $^ ${LIBRARIES}
 
-${MAIN_OBJ}: ${MAIN_SRC} ${OBJ_DIR}
+${MAIN_OBJ}: ${MAIN_SRC} ${EXEC_DIR} ${OBJ_DIR}
 	${CXX} -c -o $@ $< ${LIB_INCLUDES} ${CXX_STD} ${WARNINGS} ${OPTIMIZE} ${DEBUG}
 
 clean:
