@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include <memory>
+#include <utility>
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -17,10 +18,13 @@ namespace my {
 }
 
 int main(int, char**) {
-  my::Dimensions winDims{600u, 600u};
+  my::Dimensions winDims{16u*32u, 16u*32u};
   const sf::VideoMode winMode{winDims.width, winDims.height};
   sf::RenderWindow window{winMode, "New Adventure"};
-  sf::View view{window.getDefaultView()};
+  // sf::View view{};
+  // view.setCenter(0.f, 0.f);
+  // view.zoom(.5f);
+  // window.setView(view);
   window.setFramerateLimit(20);
 
   tson::Tileson t{};
@@ -28,6 +32,33 @@ int main(int, char**) {
   if (map->getStatus() != tson::ParseStatus::OK) {
     std::cerr << "Error loading map" << std::endl;
     return EXIT_FAILURE;
+  }
+
+  std::vector<tson::Layer*> layers{};
+  layers.push_back(map->getLayer("Ground"));
+  layers.push_back(map->getLayer("Terrain"));
+  layers.push_back(map->getLayer("Objects"));
+  tson::Tileset* overworldTileset{map->getTileset("overworld")};
+  const fs::path& imgPath{overworldTileset->getFullImagePath()};
+  sf::Texture overworldTexture{};
+  if (!overworldTexture.loadFromFile(imgPath)) {
+    std::cerr << "Error loading tileset image" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  std::vector<sf::Sprite> sprites{};
+
+  for (const auto& layer : layers) {
+    for (auto& [pos, tile] : layer->getTileObjects()) {
+      std::ignore = pos;
+      tson::Rect rect{tile.getDrawingRect()};
+      tson::Vector2f position{tile.getPosition()};
+      sf::Sprite sprite{};
+      sprite.setTexture(overworldTexture);
+      sprite.setTextureRect({rect.x, rect.y, rect.width, rect.height});
+      sprite.setPosition(position.x, position.y);
+      sprites.push_back(std::move(sprite));
+    }
   }
 
   while (window.isOpen()) {
@@ -49,10 +80,13 @@ int main(int, char**) {
       } else if (event.type == sf::Event::Resized) {
         winDims.width = event.size.width;
         winDims.height = event.size.height;
-        view.setSize(winDims.width * 1.f, winDims.height * 1.f);
-        view.setCenter(winDims.width / 2.f, winDims.height / 2.f);
-        window.setView(view);
+        // sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
+        // window.setView(sf::View(visibleArea));
       }
+    }
+    window.clear();
+    for (const auto& sprite : sprites) {
+      window.draw(sprite);
     }
     window.display();
   }
