@@ -1,41 +1,52 @@
+#include <cstdlib>
+#include <filesystem>
+#include <memory>
+
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <tileson.hpp>
 
-using namespace std;
-using namespace sf;
-namespace fs = filesystem;
+namespace fs = std::filesystem;
 using uint = unsigned int;
 
-struct Dimensions {
-  uint width;
-  uint height;
-};
+namespace my {
+  struct Dimensions {
+    uint width;
+    uint height;
+  };
+}
 
 int main(int, char**) {
-  Dimensions winDims{600u, 600u};
-  const VideoMode winMode{winDims.width, winDims.height};
-  RenderWindow window{winMode, "New Adventure"};
-  View view{window.getDefaultView()};
+  my::Dimensions winDims{600u, 600u};
+  const sf::VideoMode winMode{winDims.width, winDims.height};
+  sf::RenderWindow window{winMode, "New Adventure"};
+  sf::View view{window.getDefaultView()};
   window.setFramerateLimit(20);
 
+  tson::Tileson t{};
+  std::unique_ptr<tson::Map> map{t.parse(fs::path{"./assets/maps/map1.json"})};
+  if (map->getStatus() != tson::ParseStatus::OK) {
+    std::cerr << "Error loading map" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   while (window.isOpen()) {
-    Event event{};
+    sf::Event event{};
     while (window.pollEvent(event)) {
-      const bool isCtrlPressed{Keyboard::isKeyPressed(Keyboard::LControl) || Keyboard::isKeyPressed(Keyboard::RControl)};
-      const bool isAltPressed{Keyboard::isKeyPressed(Keyboard::LAlt) || Keyboard::isKeyPressed(Keyboard::RAlt)};
-      const bool isWPressed{Keyboard::isKeyPressed(Keyboard::W)};
-      const bool isQPressed{Keyboard::isKeyPressed(Keyboard::Q)};
-      const bool isF4Pressed{Keyboard::isKeyPressed(Keyboard::F4)};
+      const bool isCtrlPressed{sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)};
+      const bool isAltPressed{sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt) || sf::Keyboard::isKeyPressed(sf::Keyboard::RAlt)};
+      const bool isWPressed{sf::Keyboard::isKeyPressed(sf::Keyboard::W)};
+      const bool isQPressed{sf::Keyboard::isKeyPressed(sf::Keyboard::Q)};
+      const bool isF4Pressed{sf::Keyboard::isKeyPressed(sf::Keyboard::F4)};
 
       if ((isCtrlPressed && (isWPressed || isQPressed)) || (isAltPressed && isF4Pressed)) {
         window.close();
         break;
       }
-      if (event.type == Event::Closed) {
+      if (event.type == sf::Event::Closed) {
         window.close();
         break;
-      } else if (event.type == Event::Resized) {
+      } else if (event.type == sf::Event::Resized) {
         winDims.width = event.size.width;
         winDims.height = event.size.height;
         view.setSize(winDims.width * 1.f, winDims.height * 1.f);
@@ -45,5 +56,4 @@ int main(int, char**) {
     }
     window.display();
   }
-
 }
