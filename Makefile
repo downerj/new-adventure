@@ -19,23 +19,23 @@ MAIN_SRC = ${SRC_DIR}/main.cxx
 
 release: DEBUG = -DNDEBUG
 release: OPTIMIZE = -O3
-release: ${EXEC}
+release: ${EXEC_DIR} ${OBJ_DIR} ${EXEC}
 
 debug: DEBUG = -DDEBUG -g
 debug: OPTIMIZE = -Og
-debug: ${EXEC}
+debug: ${EXEC_DIR} ${OBJ_DIR} ${EXEC}
+
+${EXEC}: ${MAIN_OBJ}
+	${CXX} -o $@ $^ ${LIBRARIES}
+
+${MAIN_OBJ}: ${MAIN_SRC}
+	${CXX} -c -o $@ $< ${LIB_INCLUDES} ${CXX_STD} ${WARNINGS} ${OPTIMIZE} ${DEBUG}
 
 ${EXEC_DIR}:
 	mkdir -p ${EXEC_DIR}
 
 ${OBJ_DIR}:
 	mkdir -p ${OBJ_DIR}
-
-${EXEC}: ${MAIN_OBJ}
-	${CXX} -o $@ $^ ${LIBRARIES}
-
-${MAIN_OBJ}: ${MAIN_SRC} ${EXEC_DIR} ${OBJ_DIR}
-	${CXX} -c -o $@ $< ${LIB_INCLUDES} ${CXX_STD} ${WARNINGS} ${OPTIMIZE} ${DEBUG}
 
 clean:
 	rm -f ${EXEC_DIR}/* ${OBJ_DIR}/*.o
