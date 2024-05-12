@@ -13,16 +13,10 @@
 namespace fs = std::filesystem;
 using uint = unsigned int;
 
-namespace my {
-  struct Dimensions {
-    uint width;
-    uint height;
-  };
-}
-
 int main(int, char**) {
-  my::Dimensions winDims{16u*32u, 16u*32u};
-  const sf::VideoMode winMode{winDims.width, winDims.height};
+  const unsigned int winWidth{ 16u * 32u };
+  const unsigned int winHeight{ 16u * 32u };
+  const sf::VideoMode winMode{winWidth, winHeight};
   sf::RenderWindow window{winMode, "New Adventure"/*, sf::Style::Titlebar | sf::Style::Close*/};
   // sf::View view{};
   // view.setCenter(0.f, 0.f);
@@ -81,8 +75,6 @@ int main(int, char**) {
         window.close();
         break;
       } else if (event.type == sf::Event::Resized) {
-        winDims.width = event.size.width;
-        winDims.height = event.size.height;
         // sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
         // window.setView(sf::View(visibleArea));
       }
