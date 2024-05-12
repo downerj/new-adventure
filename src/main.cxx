@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <memory>
 #include <utility>
+#include <vector>
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -28,7 +29,7 @@ int main(int, char**) {
   window.setFramerateLimit(20);
 
   tson::Tileson t{};
-  std::unique_ptr<tson::Map> map{ t.parse(fs::path{"assets"} / "maps" / "map1.json")};
+  const std::unique_ptr<tson::Map> map{t.parse(fs::path{"assets"} / "maps" / "map1.json")};
   if (map->getStatus() != tson::ParseStatus::OK) {
     std::cerr << "Error loading map" << std::endl;
     return EXIT_FAILURE;
@@ -38,7 +39,7 @@ int main(int, char**) {
   layers.push_back(map->getLayer("Ground"));
   layers.push_back(map->getLayer("Terrain"));
   layers.push_back(map->getLayer("Objects"));
-  tson::Tileset* overworldTileset{map->getTileset("overworld")};
+  const tson::Tileset* overworldTileset{map->getTileset("overworld")};
   const fs::path& imgPath{overworldTileset->getFullImagePath()};
   sf::Texture overworldTexture{};
   if (!overworldTexture.loadFromFile(imgPath.string())) {
@@ -49,10 +50,10 @@ int main(int, char**) {
   std::vector<sf::Sprite> sprites{};
 
   for (const auto& layer : layers) {
-    for (auto& [pos, tile] : layer->getTileObjects()) {
+    for (const auto& [pos, tile] : layer->getTileObjects()) {
       std::ignore = pos;
-      tson::Rect rect{tile.getDrawingRect()};
-      tson::Vector2f position{tile.getPosition()};
+      const tson::Rect rect{tile.getDrawingRect()};
+      const tson::Vector2f position{tile.getPosition()};
       sf::Sprite sprite{};
       sprite.setTexture(overworldTexture);
       sprite.setTextureRect({rect.x, rect.y, rect.width, rect.height});
