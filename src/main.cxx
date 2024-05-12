@@ -28,7 +28,7 @@ int main(int, char**) {
   window.setFramerateLimit(20);
 
   tson::Tileson t{};
-  std::unique_ptr<tson::Map> map{t.parse(fs::path{"./assets/maps/map1.json"})};
+  std::unique_ptr<tson::Map> map{ t.parse(fs::path{"assets"} / "maps" / "map1.json")};
   if (map->getStatus() != tson::ParseStatus::OK) {
     std::cerr << "Error loading map" << std::endl;
     return EXIT_FAILURE;
