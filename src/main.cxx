@@ -33,7 +33,7 @@ int main(int, char**) {
     std::cerr << "Error loading map" << std::endl;
     return EXIT_FAILURE;
   }
-
+    
   std::vector<tson::Layer*> layers{};
   layers.push_back(map->getLayer("Ground"));
   layers.push_back(map->getLayer("Terrain"));
@@ -41,7 +41,7 @@ int main(int, char**) {
   tson::Tileset* overworldTileset{map->getTileset("overworld")};
   const fs::path& imgPath{overworldTileset->getFullImagePath()};
   sf::Texture overworldTexture{};
-  if (!overworldTexture.loadFromFile(imgPath)) {
+  if (!overworldTexture.loadFromFile(imgPath.string())) {
     std::cerr << "Error loading tileset image" << std::endl;
     return EXIT_FAILURE;
   }
