@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <filesystem>
+#include <iostream>
 #include <memory>
 #include <tuple>
 #include <utility>
