@@ -20,7 +20,7 @@ namespace my {
 int main(int, char**) {
   my::Dimensions winDims{16u*32u, 16u*32u};
   const sf::VideoMode winMode{winDims.width, winDims.height};
-  sf::RenderWindow window{winMode, "New Adventure"};
+  sf::RenderWindow window{winMode, "New Adventure"/*, sf::Style::Titlebar | sf::Style::Close*/};
   // sf::View view{};
   // view.setCenter(0.f, 0.f);
   // view.zoom(.5f);
