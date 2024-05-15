@@ -6,7 +6,7 @@ OPTIMIZE =
 DEBUG =
 LIB_DIR = lib
 LIBRARIES = -lsfml-graphics -lsfml-window -lsfml-system -lm
-LIB_INCLUDES = -I${LIB_DIR}/include
+LIB_INCLUDES = -I${LIB_DIR}/tileson/include
 
 EXEC_NAME = adventure
 EXEC_DIR = bin

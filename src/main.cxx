@@ -9,7 +9,7 @@
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include <tileson.hpp>
+#include <tileson/tileson.hpp>
 
 #include "GameEngine.hxx"
 #include "InputHandler.hxx"
