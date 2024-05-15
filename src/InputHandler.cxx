@@ -1,6 +1,10 @@
 #include "InputHandler.hxx"
 
+#include "Debug.hxx"
+
 namespace my {
+using State = InputActions::State;
+
 InputHandler::InputHandler() :
   actions{},
   actionBindings{}
@@ -16,16 +20,20 @@ void InputHandler::onKeyDown(const sf::Event::KeyEvent& event) {
   const bool isCtrlQ{event.control && event.code == sf::Keyboard::Key::Q};
   const bool isCtrlW{event.control && event.code == sf::Keyboard::Key::W};
   if (isAltF4 || isCtrlQ || isCtrlW) {
-    actions.quit = true;
+    actions.quit = State::Pressed;
   }
-  if (actionBindings.find(event.code) != actionBindings.end()) {
-    *actionBindings[event.code] = true;
+  auto it = actionBindings.find(event.code);
+  if (it != actionBindings.end() && *(it->second) != State::Debounced) {
+    DEBUG_LINE("InputHandler> Key #" << event.code << " pressed");
+    *(it->second) = State::Pressed;
   }
 }
 
 void InputHandler::onKeyUp(const sf::Event::KeyEvent& event) {
-  if (actionBindings.find(event.code) != actionBindings.end()) {
-    *actionBindings[event.code] = false;
+  auto it = actionBindings.find(event.code);
+  if (it != actionBindings.end()) {
+    DEBUG_LINE("InputHandler> Key #" << event.code << " released");
+    *(it->second) = State::Released;
   }
 }
 } // namespace my

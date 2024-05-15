@@ -20,7 +20,7 @@ public:
   InputActions actions;
 
 private:
-  std::map<sf::Keyboard::Key, bool*> actionBindings;
+  std::map<sf::Keyboard::Key, InputActions::State*> actionBindings;
 };
 } // namespace my
 
