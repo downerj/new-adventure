@@ -5,19 +5,19 @@
 #include "Renderer.hxx"
 
 namespace my {
-  class GameEngine {
-  public:
-    GameEngine();
-    GameEngine(const GameEngine&) = delete;
-    GameEngine(GameEngine&&) noexcept = delete;
-    GameEngine& operator=(const GameEngine&) = delete;
-    GameEngine& operator=(GameEngine&&) noexcept = delete;
-    void loop();
+class GameEngine {
+public:
+  GameEngine();
+  GameEngine(const GameEngine&) = delete;
+  GameEngine(GameEngine&&) noexcept = delete;
+  GameEngine& operator=(const GameEngine&) = delete;
+  GameEngine& operator=(GameEngine&&) noexcept = delete;
+  void loop();
 
-  private:
-    Renderer renderer;
-    InputHandler input;
-  };
-}
+private:
+  Renderer renderer;
+  InputHandler input;
+};
+} // namespace my
 
 #endif // GAME_ENGINE_HXX
