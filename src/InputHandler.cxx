@@ -1,5 +1,7 @@
 #include "InputHandler.hxx"
 
+#include "Debug.hxx"
+
 namespace my {
 using State = InputActions::State;
 
@@ -22,6 +24,7 @@ void InputHandler::onKeyDown(const sf::Event::KeyEvent& event) {
   }
   auto it = actionBindings.find(event.code);
   if (it != actionBindings.end() && *(it->second) != State::Debounced) {
+    DEBUG_LINE("InputHandler> Key #" << event.code << " pressed");
     *(it->second) = State::Pressed;
   }
 }
@@ -29,6 +32,7 @@ void InputHandler::onKeyDown(const sf::Event::KeyEvent& event) {
 void InputHandler::onKeyUp(const sf::Event::KeyEvent& event) {
   auto it = actionBindings.find(event.code);
   if (it != actionBindings.end()) {
+    DEBUG_LINE("InputHandler> Key #" << event.code << " released");
     *(it->second) = State::Released;
   }
 }
