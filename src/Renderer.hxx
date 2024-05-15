@@ -9,6 +9,10 @@ namespace my {
   class Renderer {
   public:
     Renderer();
+    Renderer(const Renderer&) = delete;
+    Renderer(Renderer&&) noexcept = delete;
+    Renderer& operator=(const Renderer&) = delete;
+    Renderer& operator=(Renderer&&) = delete;
     void render();
     sf::RenderWindow window;
   private:

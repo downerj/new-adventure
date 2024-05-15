@@ -11,6 +11,10 @@ namespace my {
   class SpriteLoader {
   public:
     SpriteLoader();
+    SpriteLoader(const SpriteLoader&) = delete;
+    SpriteLoader(SpriteLoader&&) noexcept = delete;
+    SpriteLoader& operator=(const SpriteLoader&) = delete;
+    SpriteLoader& operator=(SpriteLoader&&) noexcept = delete;
     std::vector<sf::Sprite> sprites;
 
   private:
