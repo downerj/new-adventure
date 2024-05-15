@@ -10,8 +10,9 @@ namespace my {
   public:
     Renderer();
     void render();
-    SpriteLoader spriteLoader;
     sf::RenderWindow window;
+  private:
+    SpriteLoader spriteLoader;
   };
 }
 
