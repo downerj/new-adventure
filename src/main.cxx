@@ -16,29 +16,6 @@
 #include "SpriteLoader.hxx"
 #include "Renderer.hxx"
 
-class Renderer {
-public:
-  Renderer() {
-    // TODO: Add a Camera class that handles the sf::View.
-    // sf::View view{};
-    // view.setCenter(0.f, 0.f);
-    // view.zoom(.5f);
-    // window.setView(view);
-    window.setFramerateLimit(20);
-  }
-
-  void render() {
-    window.clear();
-    for (const auto& sprite : spriteLoader.sprites) {
-      window.draw(sprite);
-    }
-    window.display();
-  }
-
-  SpriteLoader spriteLoader{};
-  sf::RenderWindow window{ { 16u * 32, 16u * 32 }, "New Adventure"/*, sf::Style::Titlebar | sf::Style::Close*/ };
-};
-
 class GameEngine {
 public:
   GameEngine() {}
