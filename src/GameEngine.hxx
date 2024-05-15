@@ -3,13 +3,15 @@
 
 #include "Renderer.hxx"
 
-class GameEngine {
-public:
-  GameEngine();
-  void loop();
+namespace my {
+  class GameEngine {
+  public:
+    GameEngine();
+    void loop();
 
-private:
-  Renderer renderer;
-};
+  private:
+    Renderer renderer;
+  };
+}
 
 #endif // GAME_ENGINE_HXX

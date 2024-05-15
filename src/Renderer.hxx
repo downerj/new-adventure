@@ -5,12 +5,14 @@
 
 #include "SpriteLoader.hxx"
 
-class Renderer {
-public:
-  Renderer();
-  void render();
-  SpriteLoader spriteLoader;
-  sf::RenderWindow window;
-};
+namespace my {
+  class Renderer {
+  public:
+    Renderer();
+    void render();
+    SpriteLoader spriteLoader;
+    sf::RenderWindow window;
+  };
+}
 
 #endif // RENDERER_HXX

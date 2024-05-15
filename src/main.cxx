@@ -18,7 +18,7 @@
 
 int main(int, char**) {
   try {
-    GameEngine game{};
+    my::GameEngine game{};
     game.loop();
   }
   catch (std::exception& ex) {
