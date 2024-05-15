@@ -139,7 +139,20 @@ xcopy /y /e /i "$(SolutionDir)assets" "$(OutDir)\assets"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameEngine.cxx" />
+    <ClCompile Include="src\InputActions.cxx" />
+    <ClCompile Include="src\InputHandler.cxx" />
     <ClCompile Include="src\main.cxx" />
+    <ClCompile Include="src\Renderer.cxx" />
+    <ClCompile Include="src\SpriteLoader.cxx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Debug.hxx" />
+    <ClInclude Include="src\GameEngine.hxx" />
+    <ClInclude Include="src\InputActions.hxx" />
+    <ClInclude Include="src\InputHandler.hxx" />
+    <ClInclude Include="src\Renderer.hxx" />
+    <ClInclude Include="src\SpriteLoader.hxx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
