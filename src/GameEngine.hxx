@@ -1,6 +1,7 @@
 #ifndef GAME_ENGINE_HXX
 #define GAME_ENGINE_HXX
 
+#include "InputHandler.hxx"
 #include "Renderer.hxx"
 
 namespace my {
@@ -15,6 +16,7 @@ namespace my {
 
   private:
     Renderer renderer;
+    InputHandler input;
   };
 }
 
