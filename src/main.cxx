@@ -16,50 +16,6 @@
 #include "SpriteLoader.hxx"
 #include "Renderer.hxx"
 
-namespace fs = std::filesystem;
-using uint = unsigned int;
-
-class SpriteLoader {
-public:
-  SpriteLoader() {
-    map = std::move(t.parse(fs::path{"assets"} / "maps" / "map1.json"));
-    if (map->getStatus() != tson::ParseStatus::OK) {
-      throw std::runtime_error{ "Error loading map" };
-    }
-
-    layers.push_back(map->getLayer("Ground"));
-    layers.push_back(map->getLayer("Terrain"));
-    layers.push_back(map->getLayer("Objects"));
-    overworldTileset = map->getTileset("overworld");
-    const fs::path& imgPath{ overworldTileset->getFullImagePath() };
-    if (!overworldTexture.loadFromFile(imgPath.string())) {
-      throw std::runtime_error{ "Error loading tileset image" };
-    }
-
-    for (const auto& layer : layers) {
-      for (const auto& [pos, tile] : layer->getTileObjects()) {
-        std::ignore = pos;
-        const tson::Rect rect{ tile.getDrawingRect() };
-        const tson::Vector2f position{ tile.getPosition() };
-        sf::Sprite sprite{};
-        sprite.setTexture(overworldTexture);
-        sprite.setTextureRect({ rect.x, rect.y, rect.width, rect.height });
-        sprite.setPosition(position.x, position.y);
-        sprites.push_back(std::move(sprite));
-      }
-    }
-  }
-
-  std::vector<sf::Sprite> sprites{};
-
-private:
-  tson::Tileson t{};
-  std::unique_ptr<tson::Map> map;
-  std::vector<tson::Layer*> layers{};
-  tson::Tileset* overworldTileset;
-  sf::Texture overworldTexture{};
-};
-
 class Renderer {
 public:
   Renderer() {
