@@ -1,0 +1,4 @@
+#ifndef SPRITE_LOADER_HXX
+#define SPRITE_LOADER_HXX
+
+#endif // SPRITE_LOADER_HXX

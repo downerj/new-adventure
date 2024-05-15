@@ -1,0 +1,4 @@
+#ifndef INPUT_HANDLER_HXX
+#define INPUT_HANDLER_HXX
+
+#endif // INPUT_HANDLER_HXX

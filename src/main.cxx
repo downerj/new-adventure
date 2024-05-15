@@ -11,6 +11,11 @@
 #include <SFML/Graphics.hpp>
 #include <tileson.hpp>
 
+#include "GameEngine.hxx"
+#include "InputHandler.hxx"
+#include "SpriteLoader.hxx"
+#include "Renderer.hxx"
+
 namespace fs = std::filesystem;
 using uint = unsigned int;
 
