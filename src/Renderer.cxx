@@ -6,6 +6,7 @@ Renderer::Renderer() :
   spriteLoader{}
 {
   window.setFramerateLimit(20);
+  window.setKeyRepeatEnabled(false);
 }
 
 void Renderer::render() {
