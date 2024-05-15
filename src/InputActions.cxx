@@ -2,10 +2,10 @@
 
 namespace my {
 InputActions::InputActions() :
-  walkUp{false},
-  walkDown{false},
-  walkLeft{false},
-  walkRight{false},
-  quit{false}
+  walkUp{State::Released},
+  walkDown{State::Released},
+  walkLeft{State::Released},
+  walkRight{State::Released},
+  quit{State::Released}
 {}
 } // namespace my

@@ -5,6 +5,8 @@
 #include "Debug.hxx"
 
 namespace my {
+using State = InputActions::State;
+
 GameEngine::GameEngine() :
   renderer{},
   input{}
@@ -35,16 +37,16 @@ void GameEngine::loop() {
         // window.setView(sf::View(visibleArea));
       }
 
-      if (input.actions.quit) {
+      if (input.actions.quit == State::Pressed) {
         renderer.window.close();
         break;
-      } else if (input.actions.walkUp) {
+      } else if (input.actions.walkUp == State::Pressed) {
         DEBUG_LINE("Walk up");
-      } else if (input.actions.walkDown) {
+      } else if (input.actions.walkDown == State::Pressed) {
         DEBUG_LINE("Walk down");
-      } else if (input.actions.walkLeft) {
+      } else if (input.actions.walkLeft == State::Pressed) {
         DEBUG_LINE("Walk left");
-      } else if (input.actions.walkRight) {
+      } else if (input.actions.walkRight == State::Pressed) {
         DEBUG_LINE("Walk right");
       }
     }

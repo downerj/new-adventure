@@ -10,11 +10,17 @@ public:
   InputActions& operator=(const InputActions&) = delete;
   InputActions& operator=(InputActions&&) noexcept = delete;
 
-  bool walkUp;
-  bool walkDown;
-  bool walkLeft;
-  bool walkRight;
-  bool quit;
+  enum class State {
+    Debounced = -1,
+    Released = 0,
+    Pressed
+  };
+
+  State walkUp;
+  State walkDown;
+  State walkLeft;
+  State walkRight;
+  State quit;
 };
 } // namespace my
 
