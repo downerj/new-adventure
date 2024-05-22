@@ -4,6 +4,18 @@
 
 #include "Debug.hxx"
 
+#ifdef DEBUG
+#define LOGT(x) LOG(GameEngine, debug::fg::light::yellow, x)
+#define LOGP(x) LOG_PART(GameEngine, debug::fg::light::yellow, x)
+#define LOGC(x) LOG_CONTINUE(x)
+#define LOGN() LOG_NEWLINE()
+#else
+#define LOGT(x)
+#define LOGP(x)
+#define LOGC(x)
+#define LOGN()
+#endif // DEBUG
+
 namespace my {
 using State = InputActions::State;
 
@@ -32,13 +44,13 @@ void GameEngine::loop() {
         renderer.window.close();
         break;
       } else if (input.actions.walkUp == State::Pressed) {
-        DEBUG_LINE("GameEngine> Walk up");
+        LOGT("Walk up");
       } else if (input.actions.walkDown == State::Pressed) {
-        DEBUG_LINE("GameEngine> Walk down");
+        LOGT("Walk down");
       } else if (input.actions.walkLeft == State::Pressed) {
-        DEBUG_LINE("GameEngine> Walk left");
+        LOGT("Walk left");
       } else if (input.actions.walkRight == State::Pressed) {
-        DEBUG_LINE("GameEngine> Walk right");
+        LOGT("Walk right");
       }
     }
     renderer.render();

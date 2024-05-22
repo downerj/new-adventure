@@ -2,6 +2,18 @@
 
 #include "Debug.hxx"
 
+#ifdef DEBUG
+#define LOGT(x) LOG(InputHandler, debug::fg::light::cyan, x)
+#define LOGP(x) LOG_PART(InputHandler, debug::fg::light::cyan, x)
+#define LOGC(x) LOG_CONTINUE(x)
+#define LOGN() LOG_NEWLINE()
+#else
+#define LOGT(x)
+#define LOGP(x)
+#define LOGC(x)
+#define LOGN()
+#endif // DEBUG
+
 namespace my {
 using State = InputActions::State;
 
@@ -24,7 +36,7 @@ void InputHandler::onKeyDown(const sf::Event::KeyEvent& event) {
   }
   auto it = actionBindings.find(event.code);
   if (it != actionBindings.end() && *(it->second) != State::Debounced) {
-    DEBUG_LINE("InputHandler> Key #" << event.code << " pressed");
+    LOGT("InputHandler> Key #" << event.code << " pressed");
     *(it->second) = State::Pressed;
   }
 }
@@ -32,7 +44,7 @@ void InputHandler::onKeyDown(const sf::Event::KeyEvent& event) {
 void InputHandler::onKeyUp(const sf::Event::KeyEvent& event) {
   auto it = actionBindings.find(event.code);
   if (it != actionBindings.end()) {
-    DEBUG_LINE("InputHandler> Key #" << event.code << " released");
+    LOGT("InputHandler> Key #" << event.code << " released");
     *(it->second) = State::Released;
   }
 }
