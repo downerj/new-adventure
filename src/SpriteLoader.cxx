@@ -1,6 +1,7 @@
 #include "SpriteLoader.hxx"
 
 #include <filesystem>
+#include <tuple>
 
 namespace fs = std::filesystem;
 
