@@ -9,7 +9,7 @@ namespace my {
 SpriteLoader::SpriteLoader() :
   sprites{},
   t{},
-  map{ std::move(t.parse(fs::path{"assets"} / "maps" / "map1.json")) },
+  map{ std::move(t.parse(fs::path{ "assets" } / "maps" / "map1.json")) },
   layers{},
   overworldTileset{},
   overworldTexture{}
