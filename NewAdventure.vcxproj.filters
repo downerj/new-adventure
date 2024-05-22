@@ -33,6 +33,9 @@
     <ClCompile Include="src\SpriteLoader.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Debug.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Debug.hxx">

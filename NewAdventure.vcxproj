@@ -139,6 +139,7 @@ xcopy /y /e /i "$(SolutionDir)assets" "$(OutDir)\assets"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Debug.cxx" />
     <ClCompile Include="src\GameEngine.cxx" />
     <ClCompile Include="src\InputActions.cxx" />
     <ClCompile Include="src\InputHandler.cxx" />
