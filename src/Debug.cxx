@@ -9,7 +9,7 @@ std::ostream& colorize(std::ostream& out, const char* const code) {
 
 std::ostream& colorize(std::ostream& out, std::initializer_list<const char*> codes) {
   out << "\x1b[";
-  std::initializer_list<const char*>::iterator it = codes.begin();
+  auto it = codes.begin();
   out << *it;
   it++;
   for (; it != codes.end(); ++it) {
