@@ -79,4 +79,4 @@ ${OBJ_DIR}:
 	mkdir -p ${OBJ_DIR}
 
 clean:
-	rm -f ${EXEC_DIR}/* ${OBJ_DIR}/*.o
+	rm -r -f bin obj
