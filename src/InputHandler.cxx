@@ -36,7 +36,7 @@ void InputHandler::onKeyDown(const sf::Event::KeyEvent& event) {
   }
   auto it = actionBindings.find(event.code);
   if (it != actionBindings.end() && *(it->second) != State::Debounced) {
-    LOGT("InputHandler> Key #" << event.code << " pressed");
+    LOGT("Key #" << event.code << " pressed");
     *(it->second) = State::Pressed;
   }
 }
@@ -44,7 +44,7 @@ void InputHandler::onKeyDown(const sf::Event::KeyEvent& event) {
 void InputHandler::onKeyUp(const sf::Event::KeyEvent& event) {
   auto it = actionBindings.find(event.code);
   if (it != actionBindings.end()) {
-    LOGT("InputHandler> Key #" << event.code << " released");
+    LOGT("Key #" << event.code << " released");
     *(it->second) = State::Released;
   }
 }
