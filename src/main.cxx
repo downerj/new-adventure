@@ -7,8 +7,7 @@ int main(int, char**) {
   try {
     my::GameEngine game{};
     game.loop();
-  }
-  catch (std::exception& ex) {
+  } catch (std::exception& ex) {
     std::cerr << ex.what() << std::endl;
   }
 }

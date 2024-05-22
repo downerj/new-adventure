@@ -35,10 +35,10 @@ void GameEngine::loop() {
       } else if (event.type == sf::Event::Closed) {
         renderer.window.close();
         break;
-      } else if (event.type == sf::Event::Resized) {
+      } // else if (event.type == sf::Event::Resized) {
         // sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
         // window.setView(sf::View(visibleArea));
-      }
+      // }
 
       if (input.actions.quit == State::Pressed) {
         renderer.window.close();
