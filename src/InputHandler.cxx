@@ -28,23 +28,23 @@ InputHandler::InputHandler() :
 }
 
 void InputHandler::onKeyDown(const sf::Event::KeyEvent& event) {
-  const bool isAltF4{event.alt && event.code == sf::Keyboard::Key::F4};
-  const bool isCtrlQ{event.control && event.code == sf::Keyboard::Key::Q};
-  const bool isCtrlW{event.control && event.code == sf::Keyboard::Key::W};
+  LOGT("Key #" << event.code << " pressed");
+  const bool isAltF4{ event.alt && event.code == sf::Keyboard::Key::F4 };
+  const bool isCtrlQ{ event.control && event.code == sf::Keyboard::Key::Q };
+  const bool isCtrlW{ event.control && event.code == sf::Keyboard::Key::W };
   if (isAltF4 || isCtrlQ || isCtrlW) {
     actions.quit = State::Pressed;
   }
   auto it = actionBindings.find(event.code);
   if (it != actionBindings.end() && *(it->second) != State::Debounced) {
-    LOGT("Key #" << event.code << " pressed");
     *(it->second) = State::Pressed;
   }
 }
 
 void InputHandler::onKeyUp(const sf::Event::KeyEvent& event) {
+  LOGT("Key #" << event.code << " released");
   auto it = actionBindings.find(event.code);
   if (it != actionBindings.end()) {
-    LOGT("Key #" << event.code << " released");
     *(it->second) = State::Released;
   }
 }
