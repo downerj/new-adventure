@@ -22,7 +22,7 @@ using Action = ActionHandler::Action;
 GameEngine::GameEngine() :
   renderer{},
   input{},
-  actions{input}
+  actions{ input }
 {}
 
 void GameEngine::loop() {
