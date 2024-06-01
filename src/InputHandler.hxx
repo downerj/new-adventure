@@ -1,11 +1,11 @@
 #ifndef INPUT_HANDLER_HXX
 #define INPUT_HANDLER_HXX
 
-#include <map>
+#include <array>
+#include <initializer_list>
+#include <string>
 
 #include <SFML/Window.hpp>
-
-#include "InputActions.hxx"
 
 namespace my {
 class InputHandler {
@@ -17,10 +17,26 @@ public:
   InputHandler& operator=(InputHandler&&) noexcept = delete;
   void onKeyDown(const sf::Event::KeyEvent&);
   void onKeyUp(const sf::Event::KeyEvent&);
-  InputActions actions;
+  bool isKeyPressed(sf::Keyboard::Key);
+  bool areKeysPressed(std::initializer_list<sf::Keyboard::Key>);
+  bool isAltPressed();
+  bool isControlPressed();
+  bool isShiftPressed();
+  bool isSystemPressed();
+
+  static const std::array<std::string, sf::Keyboard::Key::KeyCount> keyNames;
+  enum class State {
+    Debounced = -1,
+    Released = 0,
+    Pressed = 1,
+  };
 
 private:
-  std::map<sf::Keyboard::Key, InputActions::State*> actionBindings;
+  std::array<State, sf::Keyboard::Key::KeyCount> keyStates;
+  bool alt;
+  bool control;
+  bool shift;
+  bool system;
 };
 } // namespace my
 

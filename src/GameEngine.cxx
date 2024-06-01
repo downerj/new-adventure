@@ -17,11 +17,12 @@
 #endif // DEBUG
 
 namespace my {
-using State = InputActions::State;
+using Action = ActionHandler::Action;
 
 GameEngine::GameEngine() :
   renderer{},
-  input{}
+  input{},
+  actions{input}
 {}
 
 void GameEngine::loop() {
@@ -40,16 +41,16 @@ void GameEngine::loop() {
         // window.setView(sf::View(visibleArea));
       // }
 
-      if (input.actions.quit == State::Pressed) {
+      if (actions.getAction(Action::Quit)) {
         renderer.window.close();
         break;
-      } else if (input.actions.walkUp == State::Pressed) {
+      } else if (actions.getAction(Action::WalkUp)) {
         LOGT("Walk up");
-      } else if (input.actions.walkDown == State::Pressed) {
+      } else if (actions.getAction(Action::WalkDown)) {
         LOGT("Walk down");
-      } else if (input.actions.walkLeft == State::Pressed) {
+      } else if (actions.getAction(Action::WalkLeft)) {
         LOGT("Walk left");
-      } else if (input.actions.walkRight == State::Pressed) {
+      } else if (actions.getAction(Action::WalkRight)) {
         LOGT("Walk right");
       }
     }
