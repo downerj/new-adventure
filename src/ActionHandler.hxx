@@ -1,15 +1,12 @@
-#ifndef INPUT_ACTIONS_HXX
-#define INPUT_ACTIONS_HXX
+#ifndef ACTION_HANDLER_HXX
+#define ACTION_HANDLER_HXX
 
-#include <map>
-
-#include "InputHandler.hxx"
+#include <array>
 
 namespace my {
 class ActionHandler {
 public:
-  ActionHandler(InputHandler&);
-  ActionHandler() = delete;
+  ActionHandler();
   ActionHandler(const ActionHandler&) = delete;
   ActionHandler(ActionHandler&&) noexcept = delete;
   ActionHandler& operator=(const ActionHandler&) = delete;
@@ -21,14 +18,24 @@ public:
     WalkLeft,
     WalkRight,
     Quit,
+    ActionCount
   };
 
-  bool getAction(const Action action);
+  enum class State {
+    Released,
+    Pressed,
+    Debounced,
+  };
+
+  State& getActionState(const Action action);
+  bool getAction(const Action action) const;
 
 private:
-  InputHandler& input;
-  std::map<Action, sf::Keyboard::Key> keyBindings;
+  std::array<State, static_cast<std::size_t>(Action::ActionCount)> actions;
+
+  friend class InputHandler;
+  void setActionState(const Action action, const State state);
 };
 } // namespace my
 
-#endif // INPUT_ACTIONS_HXX
+#endif // ACTION_HANDLER_HXX

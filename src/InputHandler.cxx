@@ -14,8 +14,16 @@
 #define LOGN()
 #endif // DEBUG
 
+using namespace sf;
+using namespace std;
+using KB = sf::Keyboard;
+using Key = sf::Keyboard::Key;
+
 namespace my {
-const std::array<std::string, sf::Keyboard::Key::KeyCount> InputHandler::keyNames{
+using Action = ActionHandler::Action;
+using State = ActionHandler::State;
+
+const array<string, Key::KeyCount> InputHandler::keyNames{
   "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
   "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
   "Num0", "Num1", "Num2", "Num3", "Num4", "Num5", "Num6", "Num7", "Num8", "Num9",
@@ -31,28 +39,36 @@ const std::array<std::string, sf::Keyboard::Key::KeyCount> InputHandler::keyName
   "Pause",
 };
 
-InputHandler::InputHandler() :
-  keyStates{},
-  alt{ false },
-  control{ false },
-  shift{ false },
-  system{ false }
-{}
+InputHandler::InputHandler(ActionHandler& actions) : actions{ actions }, keyBindings{} {
+  keyBindings.insert({ Key::W, Action::WalkUp });
+  keyBindings.insert({ Key::S, Action::WalkDown });
+  keyBindings.insert({ Key::A, Action::WalkLeft });
+  keyBindings.insert({ Key::D, Action::WalkRight });
+}
 
-void InputHandler::onKeyDown(const sf::Event::KeyEvent& event) {
-  if (event.code < 0 || event.code >= sf::Keyboard::Key::KeyCount) {
+void InputHandler::onKeyDown(const Event::KeyEvent& event) {
+  if (event.code < 0 || event.code >= Key::KeyCount) {
     LOGT("Invalid key pressed: " << event.code);
     return;
   }
   LOGT("Key pressed: " << keyNames.at(event.code));
-  State& key = keyStates.at(event.code);
-  if (key != State::Debounced) {
-    key = State::Pressed;
+  
+  // Check for quit combo.
+  const bool isCtrlQ{ event.control && event.code == Key::Q };
+  const bool isCtrlW{ event.control && event.code == Key::W };
+  if (isCtrlQ || isCtrlW) {
+    actions.setActionState(Action::Quit, State::Pressed);
+    return;
   }
-  alt = event.alt;
-  control = event.control;
-  shift = event.shift;
-  system = event.system;
+
+  auto it = keyBindings.find(event.code);
+  if (it == keyBindings.end()) {
+    return;
+  }
+  State& state{ actions.getActionState(it->second) };
+  if (state != State::Debounced) {
+    state = State::Pressed;
+  }
 }
 
 void InputHandler::onKeyUp(const sf::Event::KeyEvent& event) {
@@ -61,28 +77,10 @@ void InputHandler::onKeyUp(const sf::Event::KeyEvent& event) {
     return;
   }
   LOGT("Key released: " << keyNames.at(event.code));
-  keyStates.at(event.code) = State::Released;
-  alt = event.alt;
-  control = event.control;
-  shift = event.shift;
-  system = event.system;
-}
-
-bool InputHandler::isKeyPressed(sf::Keyboard::Key key) {
-  return keyStates.at(key) == State::Pressed;
-}
-
-bool InputHandler::areKeysPressed(std::initializer_list<sf::Keyboard::Key> keys) {
-  for (const auto& key : keys) {
-    if (keyStates.at(key) != State::Pressed) {
-      return false;
-    }
+  auto it = keyBindings.find(event.code);
+  if (it == keyBindings.end()) {
+    return;
   }
-  return true;
+  actions.setActionState(it->second, State::Released);
 }
-
-bool InputHandler::isAltPressed() { return alt; }
-bool InputHandler::isControlPressed() { return control; }
-bool InputHandler::isShiftPressed() { return shift; }
-bool InputHandler::isSystemPressed() { return system; }
 } // namespace my

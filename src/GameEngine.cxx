@@ -21,8 +21,8 @@ using Action = ActionHandler::Action;
 
 GameEngine::GameEngine() :
   renderer{},
-  input{},
-  actions{ input }
+  actions{},
+  input{actions}
 {}
 
 void GameEngine::loop() {
@@ -33,26 +33,32 @@ void GameEngine::loop() {
         input.onKeyDown(event.key);
       } else if (event.type == sf::Event::KeyReleased) {
         input.onKeyUp(event.key);
+      // This is triggered by the X button and by Alt+F4.
       } else if (event.type == sf::Event::Closed) {
+        LOGT("Quit");
         renderer.window.close();
         break;
-      } // else if (event.type == sf::Event::Resized) {
-        // sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
-        // window.setView(sf::View(visibleArea));
-      // }
-
-      if (actions.getAction(Action::Quit)) {
-        renderer.window.close();
-        break;
-      } else if (actions.getAction(Action::WalkUp)) {
-        LOGT("Walk up");
-      } else if (actions.getAction(Action::WalkDown)) {
-        LOGT("Walk down");
-      } else if (actions.getAction(Action::WalkLeft)) {
-        LOGT("Walk left");
-      } else if (actions.getAction(Action::WalkRight)) {
-        LOGT("Walk right");
       }
+      // else if (event.type == sf::Event::Resized) {
+      //   sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
+      //   window.setView(sf::View(visibleArea));
+      // }
+    }
+    if (!renderer.window.isOpen()) {
+      break;
+    }
+    if (actions.getAction(Action::Quit)) {
+      LOGT("Quit");
+      renderer.window.close();
+      break;
+    } else if (actions.getAction(Action::WalkUp)) {
+      LOGT("Walk up");
+    } else if (actions.getAction(Action::WalkDown)) {
+      LOGT("Walk down");
+    } else if (actions.getAction(Action::WalkLeft)) {
+      LOGT("Walk left");
+    } else if (actions.getAction(Action::WalkRight)) {
+      LOGT("Walk right");
     }
     renderer.render();
   }
