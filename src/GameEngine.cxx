@@ -16,6 +16,8 @@
 #define LOGN()
 #endif // DEBUG
 
+using namespace sf;
+
 namespace my {
 using Action = ActionHandler::Action;
 
@@ -27,21 +29,21 @@ GameEngine::GameEngine() :
 
 void GameEngine::loop() {
   while (renderer.window.isOpen()) {
-    sf::Event event{};
+    Event event{};
     while (renderer.window.pollEvent(event)) {
-      if (event.type == sf::Event::KeyPressed) {
+      if (event.type == Event::KeyPressed) {
         input.onKeyDown(event.key);
-      } else if (event.type == sf::Event::KeyReleased) {
+      } else if (event.type == Event::KeyReleased) {
         input.onKeyUp(event.key);
       // This is triggered by the X button and by Alt+F4.
-      } else if (event.type == sf::Event::Closed) {
+      } else if (event.type == Event::Closed) {
         LOGT("Quit");
         renderer.window.close();
         break;
       }
-      // else if (event.type == sf::Event::Resized) {
-      //   sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
-      //   window.setView(sf::View(visibleArea));
+      // else if (event.type == Event::Resized) {
+      //   FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
+      //   window.setView(View(visibleArea));
       // }
     }
     if (!renderer.window.isOpen()) {

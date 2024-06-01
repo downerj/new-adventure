@@ -71,8 +71,8 @@ void InputHandler::onKeyDown(const Event::KeyEvent& event) {
   }
 }
 
-void InputHandler::onKeyUp(const sf::Event::KeyEvent& event) {
-  if (event.code < 0 || event.code >= sf::Keyboard::Key::KeyCount) {
+void InputHandler::onKeyUp(const Event::KeyEvent& event) {
+  if (event.code < 0 || event.code >= Key::KeyCount) {
     LOGT("Invalid key released: " << event.code);
     return;
   }
