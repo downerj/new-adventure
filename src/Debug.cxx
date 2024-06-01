@@ -11,7 +11,7 @@ ostream& colorize(ostream& out, const char* const code) {
 
 ostream& colorize(ostream& out, initializer_list<const char*> codes) {
   out << "\x1b[";
-  auto it = codes.begin();
+  auto it{ codes.begin() };
   out << *it;
   it++;
   for (; it != codes.end(); ++it) {

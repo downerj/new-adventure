@@ -1,11 +1,11 @@
 #include "SpriteLoader.hxx"
 
 #include <filesystem>
-#include <tuple>
 
 namespace fs = std::filesystem;
 using namespace sf;
 using namespace std;
+using namespace tson;
 
 namespace my {
 SpriteLoader::SpriteLoader() :
@@ -16,7 +16,7 @@ SpriteLoader::SpriteLoader() :
   overworldTileset{},
   overworldTexture{}
 {
-  if (map->getStatus() != tson::ParseStatus::OK) {
+  if (map->getStatus() != ParseStatus::OK) {
     throw runtime_error{ "Error loading map" };
   }
 
@@ -30,8 +30,8 @@ SpriteLoader::SpriteLoader() :
   }
 
   for (const auto& layer : layers) {
-    for (const auto& [pos, tile] : layer->getTileObjects()) {
-      ignore = pos;
+    for (const auto& object : layer->getTileObjects()) {
+      const TileObject& tile{ object.second };
       const tson::Rect rect{ tile.getDrawingRect() };
       const tson::Vector2f position{ tile.getPosition() };
       Sprite sprite{};
