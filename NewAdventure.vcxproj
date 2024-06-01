@@ -141,7 +141,7 @@ xcopy /y /e /i "$(SolutionDir)assets" "$(OutDir)\assets"</Command>
   <ItemGroup>
     <ClCompile Include="src\Debug.cxx" />
     <ClCompile Include="src\GameEngine.cxx" />
-    <ClCompile Include="src\InputActions.cxx" />
+    <ClCompile Include="src\ActionHandler.cxx" />
     <ClCompile Include="src\InputHandler.cxx" />
     <ClCompile Include="src\main.cxx" />
     <ClCompile Include="src\Renderer.cxx" />
@@ -150,7 +150,7 @@ xcopy /y /e /i "$(SolutionDir)assets" "$(OutDir)\assets"</Command>
   <ItemGroup>
     <ClInclude Include="src\Debug.hxx" />
     <ClInclude Include="src\GameEngine.hxx" />
-    <ClInclude Include="src\InputActions.hxx" />
+    <ClInclude Include="src\ActionHandler.hxx" />
     <ClInclude Include="src\InputHandler.hxx" />
     <ClInclude Include="src\Renderer.hxx" />
     <ClInclude Include="src\SpriteLoader.hxx" />

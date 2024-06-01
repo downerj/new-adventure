@@ -17,7 +17,7 @@
 #endif // DEBUG
 
 namespace my {
-using Action = InputActions::Action;
+using Action = ActionHandler::Action;
 
 GameEngine::GameEngine() :
   renderer{},

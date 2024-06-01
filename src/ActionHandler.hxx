@@ -6,14 +6,14 @@
 #include "InputHandler.hxx"
 
 namespace my {
-class InputActions {
+class ActionHandler {
 public:
-  InputActions(InputHandler&);
-  InputActions() = delete;
-  InputActions(const InputActions&) = delete;
-  InputActions(InputActions&&) noexcept = delete;
-  InputActions& operator=(const InputActions&) = delete;
-  InputActions& operator=(InputActions&&) noexcept = delete;
+  ActionHandler(InputHandler&);
+  ActionHandler() = delete;
+  ActionHandler(const ActionHandler&) = delete;
+  ActionHandler(ActionHandler&&) noexcept = delete;
+  ActionHandler& operator=(const ActionHandler&) = delete;
+  ActionHandler& operator=(ActionHandler&&) noexcept = delete;
 
   enum class Action {
     WalkUp,

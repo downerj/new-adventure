@@ -1,7 +1,7 @@
 #ifndef GAME_ENGINE_HXX
 #define GAME_ENGINE_HXX
 
-#include "InputActions.hxx"
+#include "ActionHandler.hxx"
 #include "InputHandler.hxx"
 #include "Renderer.hxx"
 
@@ -18,7 +18,7 @@ public:
 private:
   Renderer renderer;
   InputHandler input;
-  InputActions actions;
+  ActionHandler actions;
 };
 } // namespace my
 

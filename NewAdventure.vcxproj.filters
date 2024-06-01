@@ -21,7 +21,7 @@
     <ClCompile Include="src\GameEngine.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\InputActions.cxx">
+    <ClCompile Include="src\ActionHandler.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\InputHandler.cxx">
@@ -44,7 +44,7 @@
     <ClInclude Include="src\GameEngine.hxx">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\InputActions.hxx">
+    <ClInclude Include="src\ActionHandler.hxx">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\InputHandler.hxx">
