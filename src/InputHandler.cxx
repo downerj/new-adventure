@@ -15,37 +15,52 @@
 #endif // DEBUG
 
 namespace my {
-using State = InputActions::State;
-
-InputHandler::InputHandler() :
-  actions{},
-  actionBindings{}
-{
-  actionBindings.insert({ sf::Keyboard::Key::W, &actions.walkUp });
-  actionBindings.insert({ sf::Keyboard::Key::S, &actions.walkDown });
-  actionBindings.insert({ sf::Keyboard::Key::A, &actions.walkLeft });
-  actionBindings.insert({ sf::Keyboard::Key::D, &actions.walkRight });
-}
+InputHandler::InputHandler() : keyStates{} {}
 
 void InputHandler::onKeyDown(const sf::Event::KeyEvent& event) {
   LOGT("Key #" << event.code << " pressed");
-  const bool isAltF4{ event.alt && event.code == sf::Keyboard::Key::F4 };
-  const bool isCtrlQ{ event.control && event.code == sf::Keyboard::Key::Q };
-  const bool isCtrlW{ event.control && event.code == sf::Keyboard::Key::W };
-  if (isAltF4 || isCtrlQ || isCtrlW) {
-    actions.quit = State::Pressed;
+  if (event.code < 0 || event.code >= sf::Keyboard::Key::KeyCount) {
+    LOGT("Invalid key");
+    return;
   }
-  auto it = actionBindings.find(event.code);
-  if (it != actionBindings.end() && *(it->second) != State::Debounced) {
-    *(it->second) = State::Pressed;
+  State& key = keyStates.at(event.code);
+  if (key != State::Debounced) {
+    key = State::Pressed;
   }
+  alt = event.alt;
+  control = event.control;
+  shift = event.shift;
+  system = event.system;
 }
 
 void InputHandler::onKeyUp(const sf::Event::KeyEvent& event) {
   LOGT("Key #" << event.code << " released");
-  auto it = actionBindings.find(event.code);
-  if (it != actionBindings.end()) {
-    *(it->second) = State::Released;
+  if (event.code < 0 || event.code >= sf::Keyboard::Key::KeyCount) {
+    LOGT("Invalid key");
+    return;
   }
+  keyStates.at(event.code) = State::Released;
+  alt = event.alt;
+  control = event.control;
+  shift = event.shift;
+  system = event.system;
 }
+
+bool InputHandler::isKeyPressed(sf::Keyboard::Key key) {
+  return keyStates.at(key) == State::Pressed;
+}
+
+bool InputHandler::areKeysPressed(std::initializer_list<sf::Keyboard::Key> keys) {
+  for (const auto& key : keys) {
+    if (keyStates.at(key) != State::Pressed) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool InputHandler::isAltPressed() { return alt; }
+bool InputHandler::isControlPressed() { return control; }
+bool InputHandler::isShiftPressed() { return shift; }
+bool InputHandler::isSystemPressed() { return system; }
 } // namespace my
