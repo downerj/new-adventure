@@ -1,20 +1,26 @@
 #include "ActionHandler.hxx"
 
+using namespace std;
+
 namespace my {
-ActionHandler::ActionHandler(InputHandler& input) : input{ input }, keyBindings{} {
-  keyBindings.insert({ Action::WalkUp, sf::Keyboard::Key::W });
-  keyBindings.insert({ Action::WalkDown, sf::Keyboard::Key::S });
-  keyBindings.insert({ Action::WalkLeft, sf::Keyboard::Key::A });
-  keyBindings.insert({ Action::WalkRight, sf::Keyboard::Key::D });
+using Action = ActionHandler::Action;
+using State = ActionHandler::State;
+
+ActionHandler::ActionHandler() : actions{} {
+  for (auto& action : actions) {
+    action = State::Released;
+  }
 }
 
-bool ActionHandler::getAction(const Action action) {
-  if (action == Action::Quit) {
-    const bool isAltF4{ input.isAltPressed() && input.isKeyPressed(sf::Keyboard::Key::F4) };
-    const bool isCtrlQ{ input.isControlPressed() && input.isKeyPressed(sf::Keyboard::Key::Q) };
-    const bool isCtrlW{ input.isControlPressed() && input.isKeyPressed(sf::Keyboard::Key::W) };
-    return isAltF4 || isCtrlQ || isCtrlW;
-  }
-  return input.isKeyPressed(keyBindings.at(action));
+State& ActionHandler::getActionState(const Action action) {
+  return actions.at(static_cast<size_t>(action));
+}
+
+bool ActionHandler::getAction(const Action action) const {
+  return actions.at(static_cast<size_t>(action)) == State::Pressed;
+}
+
+void ActionHandler::setActionState(const Action action, const State state) {
+  actions.at(static_cast<size_t>(action)) = state;
 }
 } // namespace my

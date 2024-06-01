@@ -3,11 +3,13 @@
 
 #include "GameEngine.hxx"
 
+using namespace std;
+
 int main(int, char**) {
   try {
     my::GameEngine game{};
     game.loop();
-  } catch (std::exception& ex) {
-    std::cerr << ex.what() << std::endl;
+  } catch (exception& ex) {
+    cerr << ex.what() << endl;
   }
 }

@@ -1,15 +1,17 @@
 #include "Debug.hxx"
 
 #ifdef DEBUG
+using namespace std;
+
 namespace debug {
-std::ostream& colorize(std::ostream& out, const char* const code) {
+ostream& colorize(ostream& out, const char* const code) {
   out << "\x1b[" << code << "m";
   return out;
 }
 
-std::ostream& colorize(std::ostream& out, std::initializer_list<const char*> codes) {
+ostream& colorize(ostream& out, initializer_list<const char*> codes) {
   out << "\x1b[";
-  auto it = codes.begin();
+  auto it{ codes.begin() };
   out << *it;
   it++;
   for (; it != codes.end(); ++it) {
@@ -19,12 +21,12 @@ std::ostream& colorize(std::ostream& out, std::initializer_list<const char*> cod
   return out;
 }
 
-std::ostream& reset(std::ostream& out) {
+ostream& reset(ostream& out) {
   out << "\x1b[0m";
   return out;
 }
 
-std::ostream& clear(std::ostream& out) {
+ostream& clear(ostream& out) {
   out << "\x1b" << "c" << "\x1b[3J";
   return out;
 }

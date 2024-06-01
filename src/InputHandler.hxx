@@ -3,40 +3,30 @@
 
 #include <array>
 #include <initializer_list>
+#include <map>
 #include <string>
 
 #include <SFML/Window.hpp>
 
+#include "ActionHandler.hxx"
+
 namespace my {
 class InputHandler {
 public:
-  InputHandler();
+  InputHandler(ActionHandler&);
+  InputHandler() = delete;
   InputHandler(const InputHandler&) = delete;
   InputHandler(InputHandler&&) noexcept = delete;
   InputHandler& operator=(const InputHandler&) = delete;
   InputHandler& operator=(InputHandler&&) noexcept = delete;
   void onKeyDown(const sf::Event::KeyEvent&);
   void onKeyUp(const sf::Event::KeyEvent&);
-  bool isKeyPressed(sf::Keyboard::Key);
-  bool areKeysPressed(std::initializer_list<sf::Keyboard::Key>);
-  bool isAltPressed();
-  bool isControlPressed();
-  bool isShiftPressed();
-  bool isSystemPressed();
 
   static const std::array<std::string, sf::Keyboard::Key::KeyCount> keyNames;
-  enum class State {
-    Debounced = -1,
-    Released = 0,
-    Pressed = 1,
-  };
 
 private:
-  std::array<State, sf::Keyboard::Key::KeyCount> keyStates;
-  bool alt;
-  bool control;
-  bool shift;
-  bool system;
+  ActionHandler& actions;
+  std::map<sf::Keyboard::Key, ActionHandler::Action> keyBindings;
 };
 } // namespace my
 

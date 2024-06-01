@@ -16,43 +16,51 @@
 #define LOGN()
 #endif // DEBUG
 
+using namespace sf;
+
 namespace my {
 using Action = ActionHandler::Action;
 
 GameEngine::GameEngine() :
   renderer{},
-  input{},
-  actions{ input }
+  actions{},
+  input{actions}
 {}
 
 void GameEngine::loop() {
   while (renderer.window.isOpen()) {
-    sf::Event event{};
+    Event event{};
     while (renderer.window.pollEvent(event)) {
-      if (event.type == sf::Event::KeyPressed) {
+      if (event.type == Event::KeyPressed) {
         input.onKeyDown(event.key);
-      } else if (event.type == sf::Event::KeyReleased) {
+      } else if (event.type == Event::KeyReleased) {
         input.onKeyUp(event.key);
-      } else if (event.type == sf::Event::Closed) {
+      // This is triggered by the X button and by Alt+F4.
+      } else if (event.type == Event::Closed) {
+        LOGT("Quit");
         renderer.window.close();
         break;
-      } // else if (event.type == sf::Event::Resized) {
-        // sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
-        // window.setView(sf::View(visibleArea));
-      // }
-
-      if (actions.getAction(Action::Quit)) {
-        renderer.window.close();
-        break;
-      } else if (actions.getAction(Action::WalkUp)) {
-        LOGT("Walk up");
-      } else if (actions.getAction(Action::WalkDown)) {
-        LOGT("Walk down");
-      } else if (actions.getAction(Action::WalkLeft)) {
-        LOGT("Walk left");
-      } else if (actions.getAction(Action::WalkRight)) {
-        LOGT("Walk right");
       }
+      // else if (event.type == Event::Resized) {
+      //   FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
+      //   window.setView(View(visibleArea));
+      // }
+    }
+    if (!renderer.window.isOpen()) {
+      break;
+    }
+    if (actions.getAction(Action::Quit)) {
+      LOGT("Quit");
+      renderer.window.close();
+      break;
+    } else if (actions.getAction(Action::WalkUp)) {
+      LOGT("Walk up");
+    } else if (actions.getAction(Action::WalkDown)) {
+      LOGT("Walk down");
+    } else if (actions.getAction(Action::WalkLeft)) {
+      LOGT("Walk left");
+    } else if (actions.getAction(Action::WalkRight)) {
+      LOGT("Walk right");
     }
     renderer.render();
   }

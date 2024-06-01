@@ -1,21 +1,23 @@
 #include "SpriteLoader.hxx"
 
 #include <filesystem>
-#include <tuple>
 
 namespace fs = std::filesystem;
+using namespace sf;
+using namespace std;
+using namespace tson;
 
 namespace my {
 SpriteLoader::SpriteLoader() :
   sprites{},
   t{},
-  map{ std::move(t.parse(fs::path{ "assets" } / "maps" / "map1.json")) },
+  map{ move(t.parse(fs::path{ "assets" } / "maps" / "map1.json")) },
   layers{},
   overworldTileset{},
   overworldTexture{}
 {
-  if (map->getStatus() != tson::ParseStatus::OK) {
-    throw std::runtime_error{ "Error loading map" };
+  if (map->getStatus() != ParseStatus::OK) {
+    throw runtime_error{ "Error loading map" };
   }
 
   layers.push_back(map->getLayer("Ground"));
@@ -24,19 +26,19 @@ SpriteLoader::SpriteLoader() :
   overworldTileset = map->getTileset("overworld");
   const fs::path& imgPath{ overworldTileset->getFullImagePath() };
   if (!overworldTexture.loadFromFile(imgPath.string())) {
-    throw std::runtime_error{ "Error loading tileset image" };
+    throw runtime_error{ "Error loading tileset image" };
   }
 
   for (const auto& layer : layers) {
-    for (const auto& [pos, tile] : layer->getTileObjects()) {
-      std::ignore = pos;
+    for (const auto& object : layer->getTileObjects()) {
+      const TileObject& tile{ object.second };
       const tson::Rect rect{ tile.getDrawingRect() };
       const tson::Vector2f position{ tile.getPosition() };
-      sf::Sprite sprite{};
+      Sprite sprite{};
       sprite.setTexture(overworldTexture);
       sprite.setTextureRect({ rect.x, rect.y, rect.width, rect.height });
       sprite.setPosition(position.x, position.y);
-      sprites.push_back(std::move(sprite));
+      sprites.push_back(move(sprite));
     }
   }
 }
