@@ -3,6 +3,7 @@
 
 #include <array>
 #include <initializer_list>
+#include <string>
 
 #include <SFML/Window.hpp>
 
@@ -23,6 +24,7 @@ public:
   bool isShiftPressed();
   bool isSystemPressed();
 
+  static const std::array<std::string, sf::Keyboard::Key::KeyCount> keyNames;
   enum class State {
     Debounced = -1,
     Released = 0,
