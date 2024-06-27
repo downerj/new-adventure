@@ -39,7 +39,7 @@ const array<string, Key::KeyCount> InputHandler::keyNames{
   "Pause",
 };
 
-InputHandler::InputHandler(ActionHandler& actions) : actions{ actions }, keyBindings{} {
+InputHandler::InputHandler(ActionHandler& actions) : actionHandler{ actions }, keyBindings{} {
   keyBindings.insert({ Key::W, Action::WalkUp });
   keyBindings.insert({ Key::S, Action::WalkDown });
   keyBindings.insert({ Key::A, Action::WalkLeft });
@@ -57,7 +57,7 @@ void InputHandler::onKeyDown(const Event::KeyEvent& event) {
   const bool isCtrlQ{ event.control && event.code == Key::Q };
   const bool isCtrlW{ event.control && event.code == Key::W };
   if (isCtrlQ || isCtrlW) {
-    actions.setActionState(Action::Quit, State::Pressed);
+    actionHandler.setActionState(Action::Quit, State::Pressed);
     return;
   }
 
@@ -65,7 +65,7 @@ void InputHandler::onKeyDown(const Event::KeyEvent& event) {
   if (it == keyBindings.end()) {
     return;
   }
-  State& state{ actions.getActionState(it->second) };
+  State& state{ actionHandler.getActionState(it->second) };
   if (state != State::Debounced) {
     state = State::Pressed;
   }
@@ -81,6 +81,6 @@ void InputHandler::onKeyUp(const Event::KeyEvent& event) {
   if (it == keyBindings.end()) {
     return;
   }
-  actions.setActionState(it->second, State::Released);
+  actionHandler.setActionState(it->second, State::Released);
 }
 } // namespace my

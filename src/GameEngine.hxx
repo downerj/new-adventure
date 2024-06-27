@@ -17,8 +17,8 @@ public:
 
 private:
   Renderer renderer;
-  ActionHandler actions;
-  InputHandler input;
+  ActionHandler actionHandler;
+  InputHandler inputHandler;
 };
 } // namespace my
 

@@ -16,7 +16,7 @@ State& ActionHandler::getActionState(const Action action) {
   return actions.at(static_cast<size_t>(action));
 }
 
-bool ActionHandler::getAction(const Action action) const {
+bool ActionHandler::isActionActive(const Action action) const {
   return actions.at(static_cast<size_t>(action)) == State::Pressed;
 }
 

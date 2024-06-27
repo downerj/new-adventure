@@ -28,7 +28,7 @@ public:
   };
 
   State& getActionState(const Action action);
-  bool getAction(const Action action) const;
+  bool isActionActive(const Action action) const;
 
 private:
   std::array<State, static_cast<std::size_t>(Action::ActionCount)> actions;

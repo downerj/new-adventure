@@ -25,7 +25,7 @@ public:
   static const std::array<std::string, sf::Keyboard::Key::KeyCount> keyNames;
 
 private:
-  ActionHandler& actions;
+  ActionHandler& actionHandler;
   std::map<sf::Keyboard::Key, ActionHandler::Action> keyBindings;
 };
 } // namespace my

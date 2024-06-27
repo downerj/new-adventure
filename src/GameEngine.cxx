@@ -23,8 +23,8 @@ using Action = ActionHandler::Action;
 
 GameEngine::GameEngine() :
   renderer{},
-  actions{},
-  input{actions}
+  actionHandler{},
+  inputHandler{actionHandler}
 {}
 
 void GameEngine::loop() {
@@ -32,9 +32,9 @@ void GameEngine::loop() {
     Event event{};
     while (renderer.window.pollEvent(event)) {
       if (event.type == Event::KeyPressed) {
-        input.onKeyDown(event.key);
+        inputHandler.onKeyDown(event.key);
       } else if (event.type == Event::KeyReleased) {
-        input.onKeyUp(event.key);
+        inputHandler.onKeyUp(event.key);
       // This is triggered by the X button and by Alt+F4.
       } else if (event.type == Event::Closed) {
         LOGT("Quit");
@@ -49,17 +49,17 @@ void GameEngine::loop() {
     if (!renderer.window.isOpen()) {
       break;
     }
-    if (actions.getAction(Action::Quit)) {
+    if (actionHandler.isActionActive(Action::Quit)) {
       LOGT("Quit");
       renderer.window.close();
       break;
-    } else if (actions.getAction(Action::WalkUp)) {
+    } else if (actionHandler.isActionActive(Action::WalkUp)) {
       LOGT("Walk up");
-    } else if (actions.getAction(Action::WalkDown)) {
+    } else if (actionHandler.isActionActive(Action::WalkDown)) {
       LOGT("Walk down");
-    } else if (actions.getAction(Action::WalkLeft)) {
+    } else if (actionHandler.isActionActive(Action::WalkLeft)) {
       LOGT("Walk left");
-    } else if (actions.getAction(Action::WalkRight)) {
+    } else if (actionHandler.isActionActive(Action::WalkRight)) {
       LOGT("Walk right");
     }
     renderer.render();
