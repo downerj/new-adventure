@@ -61,7 +61,7 @@ void InputHandler::onKeyDown(const Event::KeyEvent& event) {
     return;
   }
 
-  auto it{ keyBindings.find(event.code) };
+  const auto it{ keyBindings.find(event.code) };
   if (it == keyBindings.end()) {
     return;
   }
@@ -77,7 +77,7 @@ void InputHandler::onKeyUp(const Event::KeyEvent& event) {
     return;
   }
   LOGT("Key released: " << keyNames.at(event.code));
-  auto it{ keyBindings.find(event.code) };
+  const auto it{ keyBindings.find(event.code) };
   if (it == keyBindings.end()) {
     return;
   }
