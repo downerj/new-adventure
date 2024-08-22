@@ -11,7 +11,7 @@ namespace my {
 SpriteLoader::SpriteLoader() :
   sprites{},
   t{},
-  map{ move(t.parse(fs::path{ "assets" } / "maps" / "map1.json")) },
+  map{ t.parse(fs::path{ "assets" } / "maps" / "map1.json") },
   layers{},
   overworldTileset{},
   overworldTexture{}

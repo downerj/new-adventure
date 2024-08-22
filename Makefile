@@ -1,12 +1,12 @@
 .PHONY: clean
 
 CXX_STD = -std=c++17
-WARNINGS = -Wall -Wextra -Werror -Wpedantic -pedantic-errors
+WARNINGS = -Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wno-unqualified-std-cast-call
 OPTIMIZE =
 DEBUG =
 LIB_DIR = lib
-LIBRARIES = -lsfml-graphics -lsfml-window -lsfml-system -lm
-LIB_INCLUDES = -I${LIB_DIR}/tileson/include
+LIBRARIES = -L${LIB_DIR}/SFML/lib -lsfml-graphics -lsfml-window -lsfml-system -lm
+LIB_INCLUDES = -I${LIB_DIR}/tileson/include -I${LIB_DIR}/SFML/include
 
 EXEC_NAME = adventure
 EXEC_DIR = bin
@@ -49,6 +49,7 @@ debug: ${EXEC_DIR} ${OBJ_DIR} ${EXEC}
 
 ${EXEC}: ${MAIN_OBJ} ${ACTION_HANDLER_OBJ} ${DEBUG_OBJ} ${GAME_ENGINE_OBJ} ${INPUT_HANDLER_OBJ} ${RENDERER_OBJ} ${SPRITE_LOADER_OBJ}
 	${CXX} -o $@ $^ ${LIBRARIES}
+	cp -r -f ${LIB_DIR}/SFML/lib/*.dylib ${EXEC_DIR}/
 	cp -r -f ${RES_DIR} ${EXEC_DIR}/
 
 ${MAIN_OBJ}: ${MAIN_SRC} ${DEBUG_HXX} ${GAME_ENGINE_HXX} ${INPUT_HANDLER_HXX} ${RENDERER_HXX} ${SPRITE_LOADER_HXX}
